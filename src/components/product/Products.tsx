@@ -6,11 +6,14 @@ import loadingImage from "../../assets/loading_img.gif"
 
 export default function Products() {
     const [products, setProducts] = useState<Product[]>([])
-    const [isLoading, setIsLoading] = useState<Boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<FetchError>(null)
     const [page, setPage] = useState(0)
     const [hasNext, setHasNext] = useState(false)
     const [hasPreviuos, setHasPreviuos] = useState(false)
+    const [startProduct, setStartProduct] = useState(0)
+    const [endProduct, setEndProduct] = useState(0)
+    const [totalElements, setTotalElements] = useState(0)
 
     const hasProducts = products.length > 0
 
@@ -22,7 +25,7 @@ export default function Products() {
         setIsLoading(true)
         setError(null)
         try {
-            await new Promise((resolve) => setTimeout(resolve, 500))
+            await new Promise((resolve) => setTimeout(resolve, 250))
             const response = await fetch(`http://localhost:8080/api/v1/products?page=${page}`)
             if (!response.ok) {
                 throw new Error("Error")
@@ -32,6 +35,15 @@ export default function Products() {
             setProducts(data.data);
             setHasNext(data.hasNext)
             setHasPreviuos(data.hasPrevious)
+            setTotalElements(data.totalElements)
+            setStartProduct(data.pageSize * (data.actualPage - 1) + 1)
+            setEndProduct(() => {
+                if(!data.hasNext) {
+                    return data.totalElements;
+                }
+
+                return data.pageSize * data.actualPage
+            })
         } catch (e) {
             setError(e)
         } finally {
@@ -66,6 +78,9 @@ export default function Products() {
                         hasNext={hasNext}
                         hasPreviuos={hasPreviuos}
                         changePage={changePage}
+                        startProduct={startProduct}
+                        endProduct={endProduct}
+                        totalElements={totalElements}
                     />
 
                     <section>
@@ -78,7 +93,6 @@ export default function Products() {
                         }
                         { !hasProducts && <p>No hay productos para mostrar</p> }
 
-                        {products.length === 0 && <p>No se encontraron productos</p>}
                     </section>
 
                     <Pagination
@@ -86,6 +100,9 @@ export default function Products() {
                         hasNext={hasNext}
                         hasPreviuos={hasPreviuos}
                         changePage={changePage}
+                        startProduct={startProduct}
+                        endProduct={endProduct}
+                        totalElements={totalElements}
                 />
                 </>
             }

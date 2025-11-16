@@ -4,13 +4,19 @@ type PaginationProps = {
     hasNext: boolean
     hasPreviuos: boolean,
     changePage: (page: number) => void
+    startProduct: number,
+    endProduct: number
+    totalElements: number
 }
 
 export default function Pagination({
     page,
     changePage,
     hasNext,
-    hasPreviuos
+    hasPreviuos,
+    startProduct,
+    endProduct,
+    totalElements
 }: PaginationProps) {
 
     const setPreviousPage = () => changePage(page - 1)
@@ -18,7 +24,7 @@ export default function Pagination({
 
     return (
         <section
-            className="inline"
+            className="flex justify-between items-end"
         >
             <div
                 className="flex gap-2 items-center p-4"
@@ -35,7 +41,7 @@ export default function Pagination({
                 <span
                     className="py-2 px-4 border border-blue-500 rounded-xl"
                 >
-                    {page}
+                    {page + 1}
                 </span>
                 {
 
@@ -47,6 +53,12 @@ export default function Pagination({
                         Siguiente
                     </button>
                 }
+            </div>
+
+            <div
+                className="p-4"
+            >
+                <span> { startProduct } - { endProduct } de { totalElements } </span>
             </div>
         </section>
     )
