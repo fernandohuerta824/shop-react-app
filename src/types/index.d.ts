@@ -8,4 +8,18 @@ export type Product = {
     imageUrl: string
 }
 
+export type PageResponse<T> = {
+    code: number
+    message: string
+    timestamp: string
+    data: T[]
+    totalElements: number,
+    actualPage: number,
+    pageSize: number,
+    totalPages: number,
+    numElements: number,
+    hasNext: boolean,
+    hasPrevious: boolean
+}
+
 export type FetchError = null | any
