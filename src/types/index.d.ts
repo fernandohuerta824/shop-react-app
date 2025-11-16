@@ -8,6 +8,10 @@ export type Product = {
     imageUrl: string
 }
 
+export type ProductFilters = {
+    name: string | null
+}
+
 export type PageResponse<T> = {
     code: number
     message: string

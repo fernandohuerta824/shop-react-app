@@ -1,17 +1,18 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { FetchError, PageResponse } from "../../types";
 import loadingImage from "../../assets/loading_img.gif"
 import Pagination from "../UI/Pagination";
 
-
 type PaginationLayoutProps<T> = {
     url: string
     children: (data: T[]) => ReactNode
+    filters: Record<string, any>
 }
 
 export default function PaginationLayout<T>({
     children,
-    url
+    url,
+    filters
 }: PaginationLayoutProps<T>) {
     const [elements, setElements] = useState<T[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -23,6 +24,8 @@ export default function PaginationLayout<T>({
     const [endProduct, setEndProduct] = useState(0)
     const [totalElements, setTotalElements] = useState(0)
 
+    const filtersRef = useRef<Record<string, any>>(filters);
+
     const changePage = (page: number) => {
         setPage(page)
     }
@@ -31,13 +34,22 @@ export default function PaginationLayout<T>({
         setIsLoading(true)
         setError(null)
         try {
-            await new Promise((resolve) => setTimeout(resolve, 250))
-            const response = await fetch(`${url}?page=${page}`)
+
+            const params = new URLSearchParams({
+                ...Object.fromEntries(
+                    Object.entries(filters).filter((v) => v[1] !== null)
+                ),
+                page: page.toString()
+            })
+
+
+            await new Promise(resolve => setTimeout(resolve, 300))
+            const response = await fetch(`${url}?${params.toString()}`)
             if (!response.ok) {
                 throw new Error("Error")
             }
 
-            const data: PageResponse<T>= await response.json()
+            const data: PageResponse<T> = await response.json()
             setElements(data.data);
             setHasNext(data.hasNext)
             setHasPreviuos(data.hasPrevious)
@@ -58,9 +70,18 @@ export default function PaginationLayout<T>({
     }
 
     useEffect(() => {
-        fetchElements()
-    }, [page])
+        const changed = JSON.stringify(filtersRef.current) !== JSON.stringify(filters)
+        if (changed) {
+            filtersRef.current = filters
+            setPage(0)
+        }
+    }, [filters])
 
+    useEffect(() => {
+        fetchElements()
+    }, [page, filters])
+
+    const content = useMemo(() => children(elements), [elements, children])
 
     if (isLoading) {
         return <main className="grid place-items-center h-dvh">
@@ -76,9 +97,9 @@ export default function PaginationLayout<T>({
         )
     }
 
-    if(elements.length === 0) {
+    if (elements.length === 0) {
         return <main className="container mx-auto">
-            {children([])}
+            {content}
         </main>
     }
 
@@ -95,7 +116,7 @@ export default function PaginationLayout<T>({
             />
 
             <section>
-                {children(elements)}
+                {content}
             </section>
 
             <Pagination
