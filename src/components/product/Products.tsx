@@ -3,10 +3,14 @@ import ProductComponent from "./Product";
 import PaginationLayout from "../layouts/PaginationLayout";
 import SearchBar from "../UI/SearchBar";
 import { useState } from "react";
+import ProductFilter from './ProductFilter'
 
 export default function Products() {
     const [filters, setFilters] = useState<ProductFilters>({
-        name: null
+        name: null,
+        isAvailable: null,
+        maxPrice: null,
+        minPrice: null
     })
     const onSearch = (search: string) => {
         if(!search) {
@@ -20,9 +24,14 @@ export default function Products() {
         setFilters((filters) => ({...filters, name: search.trim()}))
     }
 
+    const onSetFilters = (newFilters: Pick<ProductFilters, 'isAvailable' | 'maxPrice' | 'minPrice'>) => {
+        setFilters((filters) => ({...filters, ...newFilters}))
+    }
+
     return (
         <>
             <SearchBar onSearch={onSearch} />
+            <ProductFilter onSetFilters={onSetFilters}/>
             <PaginationLayout<Product>
                 url={'http://localhost:8080/api/v1/products'}
                 filters={filters}

@@ -10,6 +10,9 @@ export type Product = {
 
 export type ProductFilters = {
     name: string | null
+    minPrice: number | null
+    maxPrice: number | null
+    isAvailable: boolean | null
 }
 
 export type PageResponse<T> = {
