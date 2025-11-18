@@ -9,7 +9,7 @@ export default function ProductFilter({
     onSetFilters
 }: ProductFilterProps) {
 
-    const [showFilters, setShowFilters] = useState(true)
+    const [showFilters, setShowFilters] = useState(false)
     const [minPrice, setMinPrice] = useState("")
     const [maxPrice, setMaxPrice] = useState("")
     const [isAvailable, setIsAvailable] = useState("")

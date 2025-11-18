@@ -1,4 +1,4 @@
-import type { ProductFilters, Product } from "../../types";
+import type { ProductFilters, ProductList } from "../../types";
 import ProductComponent from "./Product";
 import PaginationLayout from "../layouts/PaginationLayout";
 import SearchBar from "../UI/SearchBar";
@@ -32,7 +32,7 @@ export default function Products() {
         <>
             <SearchBar onSearch={onSearch} />
             <ProductFilter onSetFilters={onSetFilters}/>
-            <PaginationLayout<Product>
+            <PaginationLayout<ProductList>
                 url={'http://localhost:8080/api/v1/products'}
                 filters={filters}
             >

@@ -1,11 +1,22 @@
 
-export type Product = {
+export type ProductList = {
     name: string
     price: number
     code: string
     stock: number
     discount: null | number
-    imageUrl: string
+    imageUrl: string | null
+}
+
+export type Product = {
+    name: string
+    description: string
+    code: string
+    price: number
+    stock: null
+    isAvailable: boolean
+    discount: number | null
+    imageUrl: string | null
 }
 
 export type ProductFilters = {
@@ -27,6 +38,13 @@ export type PageResponse<T> = {
     numElements: number,
     hasNext: boolean,
     hasPrevious: boolean
+}
+
+export type NormalResponse<T> = {
+    code: null
+    message: string
+    timeStamp: string
+    data: T
 }
 
 export type FetchError = null | any
