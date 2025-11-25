@@ -2,10 +2,18 @@ import { useState } from "react";
 import Modal from "../UI/Modal";
 import ProductForm from "./ProductForm";
 import type { Product } from "../../types";
+import { usePageContext } from "../hooks/usePageContext";
+import { ProductContext } from "./context/ProductContext";
 
 
 export default function AddProduct() {
     const [open, setOpen] = useState(false)
+    const { pageData: { fetchElements } } = usePageContext('products')
+
+    const onSubmit = () => {
+        
+        fetchElements();
+    }
 
     return (
         <section>
@@ -20,7 +28,7 @@ export default function AddProduct() {
                 onClose={() => setOpen(false)} 
             >
 
-                <div></div>
+                <ProductForm update={false} onSubmit={()=>{}} />
             </Modal>
         </section>
     )

@@ -1,9 +1,8 @@
 import { useState } from "react"
 import { usePageContext } from "../hooks/usePageContext"
-import { ProductContext } from "./context/ProductContext"
 
 export default function ProductFilter() {
-    const { onSetFilters } = usePageContext(ProductContext)
+    const { onSetFilters } = usePageContext('products')
 
     const [showFilters, setShowFilters] = useState(false)
     const [minPrice, setMinPrice] = useState("")

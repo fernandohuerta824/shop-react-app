@@ -1,19 +1,17 @@
 import type React from "react";
-import type { ContextPageType } from "../../types";
+import type {  ContextKeys, PageContextMap } from "../../types";
 import { usePageContext } from "../hooks/usePageContext";
 import Pagination from "../UI/Pagination";
-import type { JSX } from "react";
 
-type PaginationLayoutProps<T, F> = {
-    context: React.Context<ContextPageType<T, F> | undefined>
-    children: (items: T[]) => React.ReactNode
-    loadingComponent: React.ReactNode,
-    errorComponent:  React.ReactNode
+type PaginationLayoutProps<K extends ContextKeys> = {
+  context: K;
+  children: (items: PageContextMap[K][]) => React.ReactNode;
+  loadingComponent: React.ReactNode;
+  errorComponent: React.ReactNode;
+};
 
-}
-
-export default function PaginationLayout<T, F>({ context, children, errorComponent, loadingComponent  }: PaginationLayoutProps<T, F>) {
-    const { pageData } = usePageContext<T, F>(context);
+export default function PaginationLayout<K extends ContextKeys>({ context, children, errorComponent, loadingComponent  }: PaginationLayoutProps<K>) {
+    const { pageData } = usePageContext(context);
 
     const {
         pageResponse,
@@ -43,7 +41,7 @@ export default function PaginationLayout<T, F>({ context, children, errorCompone
                 changePage={changePage}
             />
 
-            <section>{children(pageResponse.data)}</section>
+            <section>{children(pageResponse.data as any)}</section>
 
             <Pagination
                 page={pageResponse.actualPage}

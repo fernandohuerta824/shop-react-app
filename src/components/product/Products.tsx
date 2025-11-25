@@ -10,7 +10,7 @@ import LoadingGif from "../UI/LoadingGif";
 import FetchError from "../UI/FecthError";
 
 export default function Products() {
-    const { onSetFilters, pageData } = usePageContext(ProductContext)
+    const { onSetFilters, pageData } = usePageContext("products")
 
     const onSearch = (search: string) => {
         if(!search) {
@@ -31,8 +31,8 @@ export default function Products() {
                 <ProductFilter/>
                 <AddProduct />
             </section>
-            <PaginationLayout<ProductList ,ProductFilters>
-                context={ProductContext}
+            <PaginationLayout
+                context={'products'}
                 loadingComponent={<LoadingGif/>}
                 errorComponent={<FetchError message="Intente de nuevo mas tarde" title="Algo salio mal" fetchFun={pageData.fetchElements} />}
             >

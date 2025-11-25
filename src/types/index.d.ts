@@ -71,3 +71,9 @@ export type ContextPageType<T, F> = {
     onSetFilters: (filters: Partial<F>) => void
 }
 
+type PageContextMap = {
+  products: ProductList
+};
+
+type ContextKeys = keyof PageContextMap
+
