@@ -57,7 +57,7 @@ export default function ProductInfo({
                         <p className="text-base text-gray-700">
                             Precio: <span className="font-semibold">${product.price.toFixed(2)} mxn</span>
                         </p>
-                        {product.discount && (
+                        {(product.discount != null && product.discount > 0) && (
                             <>
                                 <p className="text-sm text-red-500">Descuento: <span className="font-medium">{product.discount}%</span></p>
                                 <p className="text-base text-green-600 font-semibold">

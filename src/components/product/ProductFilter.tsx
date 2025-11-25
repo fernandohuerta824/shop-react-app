@@ -1,13 +1,9 @@
 import { useState } from "react"
-import type { ProductFilters } from "../../types"
+import { usePageContext } from "../hooks/usePageContext"
+import { ProductContext } from "./context/ProductContext"
 
-type ProductFilterProps = {
-    onSetFilters: (filters: Pick<ProductFilters, 'isAvailable' | 'maxPrice' | 'minPrice'>) => void
-}
-
-export default function ProductFilter({
-    onSetFilters
-}: ProductFilterProps) {
+export default function ProductFilter() {
+    const { onSetFilters } = usePageContext(ProductContext)
 
     const [showFilters, setShowFilters] = useState(false)
     const [minPrice, setMinPrice] = useState("")
@@ -15,7 +11,6 @@ export default function ProductFilter({
     const [isAvailable, setIsAvailable] = useState("")
 
     const onChangeFilters = () => {
-
 
         onSetFilters({
             isAvailable: !isAvailable ? null : isAvailable === "true" ? true : false,
@@ -39,7 +34,7 @@ export default function ProductFilter({
 
 
     return (
-        <section className="container mx-auto p-4">
+        <div >
             <button
                 className="mt-5 font-bold rounded bg-blue-500 p-2 text-white hover:cursor-pointer hover:bg-blue-600 hover:transition hover:scale-95"
                 onClick={onShowFilters}
@@ -137,6 +132,6 @@ export default function ProductFilter({
                 </div>
             </div>
 
-        </section>
+        </div>
     )
 }

@@ -9,21 +9,27 @@ export default function ProductInfoPrice({
 }: ProductInfoPriceProps) {
     
     const realDiscount =( discount ? discount : 0);
-    const isDiscount = discount ? true : false;
+
+    let hasDiscount = false; 
+    if(realDiscount && realDiscount > 0) {
+        hasDiscount = true;
+    }
 
     return (
         <>
+            
             { 
-                isDiscount && 
+                hasDiscount && 
                 <>
                     <p className="font-medium p-2 bg-red-500 text-white inline-block w-auto self-start">!!Descuento del {realDiscount}%</p>
-                    <ProductPrice discount={!isDiscount} price={price - (price * (realDiscount / 100))} /> 
-                    <ProductPrice discount={isDiscount} price={price} />
+                    <ProductPrice discount={!hasDiscount} price={price - (price * (realDiscount / 100))} /> 
+                    <ProductPrice discount={hasDiscount} price={price} />
                 </>
             }
             {
-                !isDiscount && <ProductPrice discount={isDiscount} price={price} />
+                !hasDiscount && <ProductPrice discount={hasDiscount} price={price} />
             }
+            
         </>
     )
 }

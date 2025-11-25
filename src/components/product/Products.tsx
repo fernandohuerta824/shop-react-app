@@ -2,39 +2,39 @@ import type { ProductFilters, ProductList } from "../../types";
 import ProductComponent from "./Product";
 import PaginationLayout from "../layouts/PaginationLayout";
 import SearchBar from "../UI/SearchBar";
-import { useState } from "react";
 import ProductFilter from './ProductFilter'
+import { ProductContext } from "./context/ProductContext";
+import { usePageContext } from "../hooks/usePageContext";
+import AddProduct from "./AddProduct";
+import LoadingGif from "../UI/LoadingGif";
+import FetchError from "../UI/FecthError";
 
 export default function Products() {
-    const [filters, setFilters] = useState<ProductFilters>({
-        name: null,
-        isAvailable: null,
-        maxPrice: null,
-        minPrice: null
-    })
+    const { onSetFilters, pageData } = usePageContext(ProductContext)
+
     const onSearch = (search: string) => {
         if(!search) {
-            setFilters((filters) => ({...filters, name: null}))
+            onSetFilters({name: null})
             return
         }
 
         if(search.length < 4) {
             return
         }
-        setFilters((filters) => ({...filters, name: search.trim()}))
-    }
-
-    const onSetFilters = (newFilters: Pick<ProductFilters, 'isAvailable' | 'maxPrice' | 'minPrice'>) => {
-        setFilters((filters) => ({...filters, ...newFilters}))
+        onSetFilters({name: search.trim()})
     }
 
     return (
         <>
             <SearchBar onSearch={onSearch} />
-            <ProductFilter onSetFilters={onSetFilters}/>
-            <PaginationLayout<ProductList>
-                url={'http://localhost:8080/api/v1/products'}
-                filters={filters}
+            <section className="container mx-auto p-4 flex justify-between">
+                <ProductFilter/>
+                <AddProduct />
+            </section>
+            <PaginationLayout<ProductList ,ProductFilters>
+                context={ProductContext}
+                loadingComponent={<LoadingGif/>}
+                errorComponent={<FetchError message="Intente de nuevo mas tarde" title="Algo salio mal" fetchFun={pageData.fetchElements} />}
             >
                 {(products) => (
                     <>

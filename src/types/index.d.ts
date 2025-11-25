@@ -19,6 +19,15 @@ export type Product = {
     imageUrl: string | null
 }
 
+export type ProductRequest = {
+    name?: string
+    description?: string
+    price?: number
+    stock?: number
+    isAvailable?: boolean
+    discount?: number
+}
+
 export type ProductFilters = {
     name: string | null
     minPrice: number | null
@@ -47,4 +56,18 @@ export type NormalResponse<T> = {
     data: T
 }
 
-export type FetchError = null | any
+
+export type usePaginatedFetchReturn<T> = {
+    pageResponse: Pick<PageResponse<T>, 'pageSize' | 'actualPage' | 'totalElements' | 'hasNext' | 'hasPrevious'  | 'data'>
+    isLoading: boolean
+    error: FetchError
+    changePage: (page: number) => void
+    fetchElements: () => Promise<void>
+}
+
+export type ContextPageType<T, F> = {
+    pageData: usePaginatedFetchReturn<T>,
+    filters: F,
+    onSetFilters: (filters: Partial<F>) => void
+}
+
