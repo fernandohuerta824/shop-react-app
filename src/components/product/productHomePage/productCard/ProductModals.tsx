@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { NormalResponse, Product } from "../../types";
+import type { NormalResponse, Product } from "../../../../types";
 import ProductInfo from "./ProductInfo";
 
 type ProductModalsProps = {

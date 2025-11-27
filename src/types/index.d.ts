@@ -8,15 +8,32 @@ export type ProductList = {
     imageUrl: string | null
 }
 
+export type CategoryBase = {
+    id: number
+    name: string
+    description: string
+}
+
+export type CategoryList = {
+    childCategories: CategoryList[]
+} & CategoryBase
+
+export type Category = Pick<CategoryBase, 'description' | 'id' | 'name'> & {
+    parentCategory: number | null
+}
+export type CategorySelect = CategoryBase & { isSelected?: true, parentCategories: number[], childCategories: CategorySelect[] }
+
 export type Product = {
     name: string
     description: string
     code: string
     price: number
-    stock: null
+    stock: number
     isAvailable: boolean
     discount: number | null
     imageUrl: string | null
+    categories: Category[]
+
 }
 
 export type ProductRequest = {
@@ -73,6 +90,7 @@ export type ContextPageType<T, F> = {
 
 type PageContextMap = {
   products: ProductList
+  categories: CategoryList
 };
 
 type ContextKeys = keyof PageContextMap

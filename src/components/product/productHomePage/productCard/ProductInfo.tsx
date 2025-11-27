@@ -1,5 +1,5 @@
-import type { Product } from "../../types"
-import Modal from "../UI/Modal"
+import type { Product } from "../../../../types"
+import Modal from "../../../UI/Modal"
 
 type ProductInfoProps = {
     open: boolean

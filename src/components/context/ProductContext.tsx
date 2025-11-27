@@ -1,6 +1,6 @@
 import React, { createContext, useMemo, useState } from "react";
-import type { ContextPageType, ProductFilters, ProductList } from "../../../types";
-import { usePaginatedFetch } from "../../hooks/usePaginatedFecth";
+import type { ContextPageType, ProductFilters, ProductList } from "../../types";
+import { usePaginatedFetch } from "../hooks/usePaginatedFecth";
 
 export const ProductContext = createContext<ContextPageType<ProductList, ProductFilters> | undefined>(undefined)
 

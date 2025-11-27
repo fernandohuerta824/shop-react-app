@@ -1,36 +1,17 @@
-import type { ProductFilters, ProductList } from "../../types";
-import ProductComponent from "./Product";
+import ProductComponent from "./productHomePage/Product";
 import PaginationLayout from "../layouts/PaginationLayout";
-import SearchBar from "../UI/SearchBar";
-import ProductFilter from './ProductFilter'
-import { ProductContext } from "./context/ProductContext";
 import { usePageContext } from "../hooks/usePageContext";
-import AddProduct from "./AddProduct";
 import LoadingGif from "../UI/LoadingGif";
 import FetchError from "../UI/FecthError";
+import ProductPageHead from "./productPageHead/ProductPageHead";
 
-export default function Products() {
-    const { onSetFilters, pageData } = usePageContext("products")
+export default function ProductPage() {
+    const { pageData } = usePageContext("products")
 
-    const onSearch = (search: string) => {
-        if(!search) {
-            onSetFilters({name: null})
-            return
-        }
-
-        if(search.length < 4) {
-            return
-        }
-        onSetFilters({name: search.trim()})
-    }
 
     return (
         <>
-            <SearchBar onSearch={onSearch} />
-            <section className="container mx-auto p-4 flex justify-between">
-                <ProductFilter/>
-                <AddProduct />
-            </section>
+            <ProductPageHead />
             <PaginationLayout
                 context={'products'}
                 loadingComponent={<LoadingGif/>}

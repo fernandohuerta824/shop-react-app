@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { usePageContext } from "../hooks/usePageContext"
+import { usePageContext } from "../../hooks/usePageContext"
 
 export default function ProductFilter() {
     const { onSetFilters } = usePageContext('products')

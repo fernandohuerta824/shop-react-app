@@ -1,7 +1,7 @@
 import { useState } from "react"
-import type { ProductList } from "../../types"
-import ProductInfoPrice from "./ProductInfoPrice"
-import ProductModals from "./ProductModals"
+import type { ProductList } from "../../../types"
+import ProductInfoPrice from "./productCard/ProductInfoPrice"
+import ProductModals from "./productCard/ProductModals"
 
 
 type ProductProps = {
