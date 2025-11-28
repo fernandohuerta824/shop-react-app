@@ -1,5 +1,5 @@
 import { useState } from "react"
-import type { Product, ProductRequest } from "../../types"
+import type { Product, ProductRequest } from "../../../types"
 
 type ProductFormProps = {
     product: Product

@@ -1,12 +1,11 @@
 import React, { useMemo, useState } from "react";
-import Modal from "../UI/Modal";
+import Modal from "../../UI/Modal";
 import ProductForm from "./ProductForm";
-import { type Product } from "./../../types";
-import { usePageContext } from "../hooks/usePageContext";
+import { type Product } from "../../../types";
+import { usePageContext } from "../../hooks/usePageContext";
 
 type ProductModalFormsMap = {
     generalInfo: React.ReactNode
-    categories: React.ReactNode
     image: React.ReactNode
     none: null
 }
@@ -31,13 +30,12 @@ export default function ProductModalForms({
     const { pageData: { fetchElements } } = usePageContext('products')
 
     const onModalInfo = () => {
-        setModal('categories')
+        setModal('generalInfo')
     }
 
 
     const mapModal: ProductModalFormsMap = useMemo(() => ({
         generalInfo: <ProductForm update={false} onModalInfo={onModalInfo} product={product} onPrev={onClose} onUpdateProduct={onUpdateProduct} />,
-        categories: null,
         none: null,
         image: null
     }), [product, modal])

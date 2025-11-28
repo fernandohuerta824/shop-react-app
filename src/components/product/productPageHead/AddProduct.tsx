@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { type Product } from "../../../types";
-import ProductModalForms from "../ProductModalForms";
+import ProductModalForms from "../productForm/ProductModalForms";
 
 type AddProductMap = {
     generalInfo: React.ReactNode

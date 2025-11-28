@@ -1,7 +1,7 @@
 import { usePageContext } from "../../hooks/usePageContext";
 import SearchBar from "../../UI/SearchBar";
 import AddProduct from "./AddProduct";
-import ProductFilter from "../productHomePage/ProductFilter";
+import ProductFilter from "./ProductFilter";
 
 export default function ProductPageHead() {
 
