@@ -3,42 +3,73 @@ import Modal from "../../UI/Modal";
 import ProductForm from "./ProductForm";
 import { type Product } from "../../../types";
 import { usePageContext } from "../../hooks/usePageContext";
+import { validateProductDescription, validateProductDiscount, validateProductName, validateProductPrice } from "../../utils/productValidation";
 
 type ProductModalFormsMap = {
     generalInfo: React.ReactNode
-    image: React.ReactNode
     none: null
 }
 
 type ProductModalFormsProps = {
     product: Product,
-    onUpdateProduct: (product: Partial<Product>) => void
+    onFileSelect: (file: File | null) => void
+    file: File | null
+    onUpdateProduct: (product: Partial<Product>) => void,
+    onSubmit: () => Promise<any>
+    update?: boolean
+    errors: Record<keyof Product, string | null>
+    setNewErrors: (errors: Partial<Record<keyof Product, string | null>>) => void
 }
 
 type ProductModalFormsModals = keyof ProductModalFormsMap
 
 export default function ProductModalForms({
     onUpdateProduct,
-    product
+    product,
+    onFileSelect,
+    file,
+    onSubmit,
+    update,
+    errors,
+    setNewErrors
 }: ProductModalFormsProps) {
     const [modal, setModal] = useState<ProductModalFormsModals>('none')
-
-
+ 
 
     const onClose = () => setModal('none')
 
-    const { pageData: { fetchElements } } = usePageContext('products')
-
     const onModalInfo = () => {
-        setModal('generalInfo')
+
+        // const name = validateProductName(product.name);
+        // const description = validateProductDescription(product.description)
+        // const price = validateProductPrice(product.price)
+        // const discount = validateProductDiscount(product.discount)
+        // const stock = validateProductDiscount(product.stock)
+        // let imageUrl = null
+
+        // if(!update) {
+        //     imageUrl = file == null ? "La imagen es obligatoria" : null
+        // }
+        // const errors = {
+        //     name, description, price, discount, stock, imageUrl
+        // }
+
+        // const errorValues = Object.values(errors)
+
+        // const hasError = errorValues.some(e => e != null)
+
+        // setNewErrors(errors)
+
+
+        if(true) {
+            onSubmit()
+        }
     }
 
-
     const mapModal: ProductModalFormsMap = useMemo(() => ({
-        generalInfo: <ProductForm update={false} onModalInfo={onModalInfo} product={product} onPrev={onClose} onUpdateProduct={onUpdateProduct} />,
+        generalInfo: <ProductForm errors={errors} file={file} onFileSelect={onFileSelect} update={update} onModalInfo={onModalInfo} product={product} onPrev={onClose} onUpdateProduct={onUpdateProduct} />,
         none: null,
-        image: null
-    }), [product, modal])
+    }), [product, modal, file, errors])
 
 
     return (
