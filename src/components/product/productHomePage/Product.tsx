@@ -1,5 +1,5 @@
 import { useState } from "react"
-import type { ProductList } from "../../../types"
+import type { ProductList, ProductModalFormsModals } from "../../../types"
 import ProductInfoPrice from "./productCard/ProductInfoPrice"
 import ProductModals from "./productCard/ProductModals"
 
@@ -13,10 +13,14 @@ export default function Product({
 }: ProductProps) {
 
     const [isOpenProductInfo, setIsOpenProductInfo] = useState(false)
+    const [modal, setModal] = useState<ProductModalFormsModals>('none')
 
+    const onCloseModal = () => {
+        setModal('none')
+    }
     return (
         <>
-            <ProductModals  code={product.code} onCloseProductInfo={() => setIsOpenProductInfo(false)} openInfo={isOpenProductInfo}/>
+            <ProductModals  modal={modal} onCloseModal={onCloseModal} code={product.code} onCloseProductInfo={() => setIsOpenProductInfo(false)} openInfo={isOpenProductInfo}/>
             <article className="shadow-md shadow-gray-300 rounded-2xl p-4 bg-white flex flex-col h-full gap-4">
                 <header className="border-2 border-gray-300 rounded-2xl overflow-hidden">
                     <img className="w-full h-80 object-contain block" src={product.imageUrl || "https://picsum.photos/600"} alt={product.name} />
@@ -40,7 +44,10 @@ export default function Product({
                         Ver Info
                     </button>
 
-                    <button className="font-bold rounded bg-blue-500 w-full p-2 text-white hover:cursor-pointer hover:bg-blue-600 hover:transition hover:scale-95">
+                    <button 
+                        className="font-bold rounded bg-blue-500 w-full p-2 text-white hover:cursor-pointer hover:bg-blue-600 hover:transition hover:scale-95"
+                        onClick={() => setModal('generalInfo')}
+                    >
                         Actualizar
                     </button>
                 </footer>

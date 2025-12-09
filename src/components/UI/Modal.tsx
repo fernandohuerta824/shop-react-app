@@ -36,7 +36,7 @@ export default function Modal({
         <dialog
             ref={dialogRef}
             onClose={onClose}
-            className="backdrop:backdrop-blur-md z-1 p-4 border-none rounded-xl backdrop:bg-black/75 w-full max-w-xl animate-fadeIn fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            className="bg-white backdrop:backdrop-blur-md z-1 p-4 border-none rounded-xl backdrop:bg-black/75 w-full max-w-xl animate-fadeIn fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         >
             {children}
            

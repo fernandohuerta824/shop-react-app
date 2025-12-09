@@ -1,13 +1,10 @@
 import {  useState, type ChangeEvent } from "react"
+import { useSingleProductContext } from "../hooks/useSingleProductContext"
 
-type ImageInputProps = {
-    currentImageUrl: string | null
-    onFileSelect: (file: File | null) => void
-    file: File | null,
-    error: string | null
-}
 
-export default function ImageInput({ error, currentImageUrl, onFileSelect, file }: ImageInputProps) {
+
+export default function ImageInput() {
+    const { file, onFileSelect, errors, product } = useSingleProductContext();
     const [url, setUrl] = useState(() => {
         let url = ""
 
@@ -36,14 +33,14 @@ export default function ImageInput({ error, currentImageUrl, onFileSelect, file 
 
     return (
         <div className="flex flex-col gap-3">
-        { error && <p className="text-red-500 text-base">{error}</p> }
+        { errors.imageUrl && <p className="text-red-500 text-base">{errors.imageUrl}</p> }
 
             <div className="flex gap-4">
-                {currentImageUrl && (
+                {product.imageUrl && (
                     <div className="flex flex-col items-center">
                         <p className="text-sm text-gray-500 mb-1">Imagen actual</p>
                         <img
-                            src={currentImageUrl}
+                            src={product.imageUrl}
                             alt="Backend"
                             className="w-40 h-32 object-cover rounded border border-gray-300 shadow-sm"
                         />

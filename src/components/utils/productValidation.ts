@@ -31,8 +31,8 @@ export function validateProductDescription(description: string, update = false) 
 }
 
 export function validateProductPrice(price: number) {
-    if(price < 0) {
-        return "El precio debe ser mayor o igual a 0"
+    if(price < 1) {
+        return "El precio debe ser mayor a 0"
     }
 
     if(price > 100_000) {
@@ -48,11 +48,11 @@ export function validateProductDiscount(discount: number | null) {
         return null
     }
 
-    if(discount < 0) {
+    if(+discount < 0) {
         return "El descuento debe ser mayor o igual a 0"
     }
 
-    if(discount > 100) {
+    if(+discount > 100) {
         return "El descuento debe ser menor o igual a 100"
     }
 

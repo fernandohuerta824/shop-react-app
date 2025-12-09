@@ -57,6 +57,10 @@ export type NormalResponse<T> = {
     data: T
 }
 
+export type ImagePostResponse = {
+    publicId: string
+    url: string
+}
 
 export type usePaginatedFetchReturn<T> = {
     pageResponse: Pick<PageResponse<T>, 'pageSize' | 'actualPage' | 'totalElements' | 'hasNext' | 'hasPrevious'  | 'data'>
@@ -72,9 +76,22 @@ export type ContextPageType<T, F> = {
     onSetFilters: (filters: Partial<F>) => void
 }
 
-type PageContextMap = {
+export type PageContextMap = {
   products: ProductList
 };
 
-type ContextKeys = keyof PageContextMap
+export type ContextKeys = keyof PageContextMap
 
+export type AddProductMap = {
+    generalInfo: React.ReactNode
+    none: null
+}
+
+export type AddProduct = keyof AddProductMap
+
+export type ProductModalFormsMap = {
+    generalInfo: React.ReactNode
+    none: null
+}
+
+export type ProductModalFormsModals = keyof ProductModalFormsMap

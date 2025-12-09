@@ -1,43 +1,64 @@
 import { useEffect, useState } from "react";
-import type { NormalResponse, Product } from "../../../../types";
+import type { NormalResponse, Product, ProductModalFormsModals } from "../../../../types";
 import ProductInfo from "./ProductInfo";
+import { SingleProductProvider } from "../../../context/SingleProductContext";
+import ProductModalForms from "../../productForm/ProductModalForms";
 
 type ProductModalsProps = {
     openInfo: boolean
     onCloseProductInfo: () => void
-    code: String
+    code: String,
+    modal: ProductModalFormsModals
+    onCloseModal: () => void
 }
 
 export default function ProductModals({
     onCloseProductInfo,
     openInfo,
-    code
+    code,
+    modal,
+    onCloseModal
 
 }: ProductModalsProps) {
-    const [product, setProduct] = useState<Product>();
-    const [retriveProduct, setRetriveProduct] = useState(true)
+    const [product, setProduct] = useState<Product>()
+    const [error, setError] = useState(false)
+
 
     const fetchProduct = async () => {
-        const response = await fetch("http://localhost:8080/api/v1/products/" + code)
-
-        if(!response.ok) {
-            throw new Error("")
+        
+        try {
+            setError(false)
+            const response = await fetch("http://localhost:8080/api/v1/products/" + code)
+    
+            if (!response.ok) {
+                throw new Error("")
+            }
+    
+            const data: NormalResponse<Product> = await response.json()
+            setProduct(data.data)
+            
+        } catch(e) {
+            setError(true)
         }
-
-        const data: NormalResponse<Product> = await response.json()
-        setProduct(data.data)
+        
     }
 
     useEffect(() => {
 
-        if(retriveProduct && openInfo) {
+        if(openInfo || modal != 'none') {
             fetchProduct()
-            setRetriveProduct(false)
         }
-    }, [retriveProduct, openInfo])
+        
+    }, [openInfo, modal])
+
 
 
     return <>
-        <ProductInfo product={product!} onClose={onCloseProductInfo} open={openInfo} />
+        <ProductInfo product={product} onClose={onCloseProductInfo} open={openInfo} />
+        
+        <SingleProductProvider initialProduct={product} mode="update" isReady={!!product} error={error} fetchInitialProduct={fetchProduct}>
+
+            <ProductModalForms modal={modal} onCloseModal={onCloseModal} />
+        </SingleProductProvider>
     </>
 }
