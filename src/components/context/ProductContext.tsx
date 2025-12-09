@@ -1,5 +1,5 @@
 import React, { createContext, useMemo, useState } from "react";
-import type { ContextPageType, ProductFilters, ProductList } from "../../types";
+import type { ContextPageType, ProductFilters, ProductList, ProductSorting } from "../../types";
 import { usePaginatedFetch } from "../hooks/usePaginatedFecth";
 
 export const ProductContext = createContext<ContextPageType<ProductList, ProductFilters> | undefined>(undefined)
@@ -10,7 +10,9 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
         name: null,
         isAvailable: null,
         maxPrice: null,
-        minPrice: null
+        minPrice: null,
+        sortDir: null,
+        sortBy: null
     })
 
     const onSetFilters = (newFilters: Partial<ProductFilters>) => {

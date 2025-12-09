@@ -34,6 +34,16 @@ export type ProductFilters = {
     minPrice: number | null
     maxPrice: number | null
     isAvailable: boolean | null
+    sortBy: "price" | "name" | null
+    sortDir: "asc" | "desc" | null
+}
+
+export type ProductSorting =  {
+    noSort: null,
+    priceAsc: {sortBy: "price", sortDir: "asc"},
+    priceDesc: {sortBy: "price", sortDir: "desc"},
+    nameAsc: {sortBy: "name", sortDir: "asc"},
+    nameDesc: {sortBy: "name", sortDir: "desc"},
 }
 
 export type PageResponse<T> = {
