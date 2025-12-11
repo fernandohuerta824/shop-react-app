@@ -60,15 +60,6 @@ export default function ProductModalForms({
     }
 
     
-    if(error) {
-        return <Modal
-            open={modal != 'none'}
-            onClose={onClose}
-        >
-            <FetchError message="Algo malio sal" title="Error" fetchFun={fetchInitialProduct}/>
-        </Modal>
-    }
-    
 
     return (
 
@@ -76,8 +67,9 @@ export default function ProductModalForms({
             open={modal != 'none'}
             onClose={onClose}
         >
-
-            { isReady && mapModal[modal]}
+            
+            {error && <FetchError message="Algo malio sal" title="Error" fetchFun={fetchInitialProduct}/>} 
+            { (isReady && !error) && mapModal[modal]}
             { !isReady && <LoadingGif />}
         </Modal>
 

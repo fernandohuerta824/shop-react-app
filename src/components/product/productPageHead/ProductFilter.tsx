@@ -41,16 +41,17 @@ export default function ProductFilter() {
         setMinPrice("")
         setMaxPrice("")
         setIsAvailable("")
+        setSorting("noSort")
         onSetFilters({
             isAvailable: null,
             maxPrice: null,
-            minPrice: null
+            minPrice: null,
+            sortBy: null,
+            sortDir: null
         })
     }
 
     const onShowFilters = () => setShowFilters(showFilters => !showFilters)
-
-    console.log(sorting)
     
     return (
         <div >

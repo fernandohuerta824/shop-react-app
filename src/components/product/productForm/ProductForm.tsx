@@ -104,7 +104,8 @@ export default function ProductForm({ onModalInfo, onClose }: ProductFormProps) 
                             type="number"
                             placeholder="Ej: 5999"
                             className="px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                            value={product.price}
+                            value={product.price || ""}
+                            min={0}
                             onChange={e => handleUpdateField(e.target.name as keyof Product, e.target.value)}
                             name="price"
                         />
@@ -119,7 +120,8 @@ export default function ProductForm({ onModalInfo, onClose }: ProductFormProps) 
                             placeholder="Ej: 31"
                             className="px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                             onChange={e => handleUpdateField(e.target.name as keyof Product, e.target.value)}
-                            value={product.stock}
+                            value={product.stock || ""}
+                            min={0}
                             name="stock"
                         />
                     </div>
@@ -132,7 +134,8 @@ export default function ProductForm({ onModalInfo, onClose }: ProductFormProps) 
                             type="number"
                             placeholder="Ej: 20"
                             className="px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                            value={product.discount || 0}
+                            value={product.discount || ""}
+                            min={0}
                             onChange={e => handleUpdateField(e.target.name as keyof Product, e.target.value)}
                             name="discount"
                         />
@@ -169,7 +172,7 @@ export default function ProductForm({ onModalInfo, onClose }: ProductFormProps) 
                         className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition cursor-pointer hover:scale-95 disabled:bg-gray-400"
                         disabled={loading}
                     >
-                        {loading ? "Enviando..." : "Siguiente"}
+                        {loading ? "Enviando..." : "Agregar"}
                     </button>
                 </div>
 

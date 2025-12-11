@@ -29,7 +29,7 @@ export default function AddProduct() {
                 name: "",
                 price: 0,
                 stock: 0
-            }} isReady>
+            }} isReady error={false} fetchInitialProduct={async () => {}}>
 
                 <ProductModalForms modal={modal} onCloseModal={onCloseModal} />
             </SingleProductProvider>

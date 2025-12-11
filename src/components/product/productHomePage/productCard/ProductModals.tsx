@@ -22,12 +22,14 @@ export default function ProductModals({
 }: ProductModalsProps) {
     const [product, setProduct] = useState<Product>()
     const [error, setError] = useState(false)
+    const [isReady, setIsReady] = useState(false)
 
 
     const fetchProduct = async () => {
         
         try {
             setError(false)
+            setIsReady(false)
             const response = await fetch("http://localhost:8080/api/v1/products/" + code)
     
             if (!response.ok) {
@@ -36,27 +38,27 @@ export default function ProductModals({
     
             const data: NormalResponse<Product> = await response.json()
             setProduct(data.data)
-            
         } catch(e) {
             setError(true)
         }
+        setIsReady(true)
         
     }
 
     useEffect(() => {
 
-        if(openInfo || modal != 'none') {
+        if((openInfo || modal != 'none') && !product) {
             fetchProduct()
         }
         
-    }, [openInfo, modal])
+    }, [openInfo, modal, product])
 
 
 
     return <>
-        <ProductInfo product={product} onClose={onCloseProductInfo} open={openInfo} />
+        <ProductInfo product={product} onClose={onCloseProductInfo} open={openInfo} error={error} fetchInitialProduct={fetchProduct} isReady={isReady}/>
         
-        <SingleProductProvider initialProduct={product} mode="update" isReady={!!product} error={error} fetchInitialProduct={fetchProduct}>
+        <SingleProductProvider initialProduct={product} mode="update" isReady={isReady} error={error} fetchInitialProduct={fetchProduct}>
 
             <ProductModalForms modal={modal} onCloseModal={onCloseModal} />
         </SingleProductProvider>

@@ -20,7 +20,13 @@ export function usePaginatedFetch<T, F extends Record<string, any>>(
         setPage(page)
     }
 
+    let controller: AbortController | null = null;
+    
     const fetchElements = async () => {
+        if (controller != null) {
+            controller.abort()
+        }
+        controller = new AbortController();
         setIsLoading(true)
         setError(null)
         try {
@@ -33,8 +39,7 @@ export function usePaginatedFetch<T, F extends Record<string, any>>(
             })
 
 
-            await new Promise(resolve => setTimeout(resolve, 300))
-            const response = await fetch(`${url}?${params.toString()}`)
+            const response = await fetch(`${url}?${params.toString()}`, {signal: controller.signal})
             if (!response.ok) {
                 throw new Error("Error")
             }
@@ -45,7 +50,8 @@ export function usePaginatedFetch<T, F extends Record<string, any>>(
             setHasPrevious(data.hasPrevious)
             setTotalElements(data.totalElements)
             setPageSize(data.pageSize)
-        } catch (e) {
+        } catch (e: any) {
+            if (e.name === "AbortError") return;
             setError(e)
         } finally {
             setIsLoading(false)
