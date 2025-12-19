@@ -12,7 +12,7 @@ type ProductFormProps = {
 
 export default function ProductForm({ onModalInfo, onClose }: ProductFormProps) {
 
-    const { onUpdateProduct, mode, product, errors, submitted, productError, loading } = useSingleProductContext()
+    const { onUpdateProduct, mode, product, errors, submitted, productError, loading, imgError } = useSingleProductContext()
 
     const changePrev = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
@@ -37,6 +37,7 @@ export default function ProductForm({ onModalInfo, onClose }: ProductFormProps) 
                  <h2 className="text-2xl font-semibold text-green-600 text-center">
                     Producto {mode == 'create' ? "creado" : "actualizado"} correctamente
                 </h2>
+                {imgError && <p>La nueva imagen no pudo ser subida, intente actualizar la imagen mas tarde</p>}
                 <ProductInfoCard product={product} />
                 <button
                     onClick={changePrev}

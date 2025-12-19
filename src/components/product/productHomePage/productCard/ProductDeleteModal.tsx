@@ -23,23 +23,37 @@ export default function ProductDeleteModal({
             setLoading(true)
             setError(false)
             setDeleted(false)
+            try {
+                const resImage = await fetch('http://localhost:8080/api/v1/products/' + code + '/image', {
+                    method: 'DELETE'
+                })
+
+                if(!resImage.ok) {
+                    throw new Error("")
+                }
+            } catch (e) {
+                
+            }
             const resProduct = await fetch('http://localhost:8080/api/v1/products/' + code, {
                 method: 'DELETE'
-            } )
+            })
 
-            if(!resProduct.ok) {
+
+            if (!resProduct.ok) {
                 throw new Error("");
             }
+
             
+
             setDeleted(true)
-        } catch(e) {
+        } catch (e) {
             setError(true)
         }
         setLoading(false)
     }
 
     return (
-        <Modal open={open} onClose={deleted ? onDelete : onClose }>
+        <Modal open={open} onClose={deleted ? onDelete : onClose}>
             {deleted && <div>
                 Producto Eliminado Correctamente
                 <div className="flex justify-end gap-3 pt-4">
@@ -55,28 +69,28 @@ export default function ProductDeleteModal({
             {error && <h3 className="text-xl font-semibold text-red-600">Un error ha ocurrido, por favor intente mas tarde</h3>}
             {!deleted &&
                 <div>
-                Esta seguro que quiere borrar el producto?
+                    Esta seguro que quiere borrar el producto?
 
-                <div className="flex justify-end gap-3 pt-4">
+                    <div className="flex justify-end gap-3 pt-4">
 
-                    <button
-                        onClick={onClose}
-                        className="px-4 py-2 rounded-lg text-white bg-red-500 hover:bg-red-600 transition cursor-pointer hover:scale-95 disabled:bg-gray-400"
-                        disabled={loading}
-                    >
-                        No
-                    </button>
+                        <button
+                            onClick={onClose}
+                            className="px-4 py-2 rounded-lg text-white bg-red-500 hover:bg-red-600 transition cursor-pointer hover:scale-95 disabled:bg-gray-400"
+                            disabled={loading}
+                        >
+                            No
+                        </button>
 
-                    <button
-                        type="submit"
-                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition cursor-pointer hover:scale-95 disabled:bg-gray-400"
-                        disabled={loading}
-                        onClick={onDeleteProduct}
-                    >
-                        {loading ? "Borrando..." :"Si, borrar"}
-                    </button>
+                        <button
+                            type="submit"
+                            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition cursor-pointer hover:scale-95 disabled:bg-gray-400"
+                            disabled={loading}
+                            onClick={onDeleteProduct}
+                        >
+                            {loading ? "Borrando..." : "Si, borrar"}
+                        </button>
+                    </div>
                 </div>
-            </div>
             }
         </Modal>
     )
